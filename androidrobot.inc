@@ -1,4 +1,4 @@
-/* androidrobot.inc version 5.0A
+/* androidrobot.inc version 6.0-beta.1
  * Persistence of Vision Raytracer include file
  * POV-Ray Object Collection
  *
@@ -14,57 +14,75 @@
  *
  * Portions of the SDL source code are copyright (C) 2009 Karl Ostmo.  Some
  * rights reserved.  Portions of the SDL source code are copyright (C) 2011 -
- * 2021 Richard Callwood III.  Some rights reserved.
- * This file is licensed under the terms of the CC-LGPL
- * a.k.a. the GNU Lesser General Public License version 2.1.
+ * 2025 Richard Callwood III.  Some rights reserved.
+ * This file is licensed under the terms of the GNU-LGPL.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License version 2.1 as published by the Free Software Foundation.
+ * This library is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Please
- * visit https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html for
- * the text of the GNU Lesser General Public License version 2.1.
+ * visit https://www.gnu.org/licenses/lgpl-3.0.html for the text
+ * of the GNU Lesser General Public License version 3.
  *
- * Vers.  Date         Comments                                           Author
- * -----  ----         --------                                           ------
- * 1.0    2009-Oct-30  The original code is written as droid.pov.          K.O.
+ * Original code by Karl Ostmo:
  *
- * 2.0    2011-Jul-23  The code is separated into include and demo files.  R.C.
+ * Vers.  Date         Comments
+ * -----  ----         --------
+ * 1.0    2009-Oct-30  The original code is written as droid.pov.
+ *
+ * Modifications by Richard Callwood III:
+ *
+ * Vers.  Date         Comments
+ * -----  ----         --------
+ * 2.0    2011-Jul-23  The code is separated into include and demo files.
  *                     The code is made fully namespace compliant.
  *                     The pigment is removed from the robot and the
  *                     official color is declared separately.
  *                     The robot can be posed.
+ *                     A #version is added, either 3.5 or 3.7.
  *
- * 2.1    2012-Jun-26  Non-gamma-adjusted official color is added.         R.C.
- * 2.1a   2012-Jun-28  A correction is made to Google license statement    R.C.
+ * 2.1    2012-Jun-26  Non-gamma-adjusted official color is added.
+ * 2.1a   2012-Jun-28  A correction is made to Google license statement.
  *
- * 2.2    2014-Oct-05  The arms are moved away from the body, as they      R.C.
- *                     appear in the 2D logo.
+ * 2.2    2014-Oct-05  The arms are moved away from the body, as they appear in
+ *                     the 2D logo.
  *                     A backwards compatibility switch is added.
  *                     The Google license statement is upgraded.
  *
- * 3.0    2015-Apr-25  The robot is remodeled based on an SVG source.      R.C.
- *                     Tools are added to facilitate user modeling of
- *                     eyes.
- * 3.0a   2015-Apr-27  A correction is made to the user manual.            R.C.
+ * 3.0    2015-Apr-25  The robot is remodeled based on an SVG source.
+ *                     Tools are added to facilitate user modeling of eyes.
+ * 3.0a   2015-Apr-27  A correction is made to the user manual.
  *
- * 4.0    2018-Sep-23  The short prefix is reinstated.                     R.C.
+ * 4.0    2018-Sep-23  The short prefix is reinstated.
  *                     The official color is updated.
  *
- * 4.0.1  2019-Mar-22  View_POV_Include_Stack is utilized.                 R.C.
+ * 4.0.1  2019-Mar-22  View_POV_Include_Stack is utilized.
  *
- * 5.0    2020-Sep-19  The official color is updated to its 2019 value.    R.C.
- *                     The pre-3.7 nonlinear color adjustment is changed
- *                     from a power function to sRGB.
- *                     New body proportions are added, extrapolated from
- *                     the 2019 head logo.  Proportions of previous
- *                     versions remain selectable.
+ * 5.0    2020-Sep-19  The official color is updated to its 2019 value.
+ *                     The #version preserved between 3.5 and 3.8.
+ *                     The pre-3.7 nonlinear color adjustment is changed from a
+ *                     power function to sRGB.
+ *                     New body proportions are added, extrapolated from the
+ *                     2019 head logo.  Proportions of previous versions remain
+ *                     selectable.
  *                     The head is available standalone.
  *
- * 5.0A   2021-Aug-14  The license text is updated.                        R.C.
+ * 6.0    20??-???-??  "Magic numbers" are centralized in an array.
+ *                     New body proportions are added, extrapolated from the
+ *                     2023 head logo.  Proportions of previous versions remain
+ *                     selectable.
+ *                     The nonlinear color adjustment is reverted to a power
+ *                     gamma for #version < 3.7.  (See "Stock colors and
+ *                     assumed_gamma 1 in POV-Ray 3.6" (2020-Oct-12) in
+ *                     povray.binaries.images.)
+ *                     A gamma can be set for #version < 3.7.
+ *                     Additional identifier synonyms are added, including
+ *                     international spellings.
+ *                     The license is upgraded to LGPL 3.
  *
  * Implementation note: due to POV-Ray namespace scope leakage, local variables
  * and function parameters (other than x, y, and z) *must* be prefixed.
@@ -76,12 +94,13 @@
 
 #ifdef (View_POV_Include_Stack)
   #debug concat
-  ( "#include \"androidrobot.inc\" //version 5.0A\n  #version ",
+  ( "#include \"androidrobot.inc\" //version 6.0-beta.1\n  #version ",
     str(version,0,1), ";\n"
   )
 #end
 
-#ifndef (AndroidRobot_Version) #declare AndroidRobot_Version = 5.0; #end
+#ifndef (AndroidRobot_Version) #declare AndroidRobot_Version = 6.0; #end
+#ifndef (AndroidRobot_Gamma) #declare AndroidRobot_Gamma = 1.0; #end
 
 //============================= PUBLIC CONSTANTS ===============================
 
@@ -90,10 +109,6 @@
 
 //======================= INTERNAL (PRIVATE) FEATURES ==========================
 // These features are not intended for direct use by the end user.
-
-#declare Droid__fn_sRGB = function (x)
-{ select (x - 0.04045, x / 12.92, pow ((x + 0.055) / 1.055, 2.4))
-}
 
 //---------------------- Ostmo model -----------------------
 
@@ -211,46 +226,68 @@
  * such that the new version of the robot has the same size and position as the
  * Ostmo model.
  *
- * The Google Web page from which the Wikimedia image was taken now redirects
- * to a page (see the Google attribution in the header comment) with a different
- * SVG file that has only the head defined.  The proportions of this new SVG
- * file have been extrapolated for version 5.0 of AndroidRobot. --RC
+ * The Android Web page from which the Wikimedia image was taken now redirects
+ * to a page (see the Google attribution in the header comment) with various SVG
+ * files over time that have only the head defined.  The proportions of these
+ * new SVG files have been extrapolated for AndroidRobot versions 5.0 and 6.0,
+ * respectively. --RC
  */
+// Per Dijkstra, keep all the messy values in a data structure:
+#declare droid__Dimensions = array [28][3]
+{// torso and limbs
+  { 0.483731, 0.485546, 0.487218, }, // torso radius
+  { 0.116946, 0.117385, 0.117789, }, // butt minor radius
+  { 0.108441, 0.108848, 0.109223, }, // limb radius
+  { 0.632571, 0.634945, 0.637131, }, // shoulder z
+  { 0.180735, 0.181413, 0.182038, }, // hip z
+  { 0.615738, 0.620112, 0.624142, }, // torso top
+  {-0.202352,-0.201047,-0.199845, }, // torso bottom
+  { 0.525902, 0.529939, 0.533659, }, // shoulder y center of curvature
+  { 0.010277, 0.012379, 0.014316, }, // hip y center of curvature
+  { 0.451836, 0.453532, 0.455094, }, // limb length excluding end radii
+ // antennae
+  { 29,       30,       30.08,    }, // antenna angle
+  { 0.015416, 0.016810, 0.044792, }, // antenna side radius
+  { 0.015416, 0.016810, 0.044809, }, // antenna end radius
+  { 0.108972, 0.304231, 0.299381, }, // antenna z top center of curvature
+  { 0.871424, 0,        0,        }, // antenna y origin (v3)
+  { 0.422600, 1.188860, 1.185402, }, // antenna y top center of curvature
+  { 0.034552, 0,        0,        }, // bottom of unrotated antenna (v3)
+  { 0,        0.18,     0.21,     }, // antenna length (v4 and later)
+ // eyes
+  { 0.871424, 0.837335, 0.840155, }, // eye y
+  { 0.223260, 0.223475, 0.224056, }, // eye z
+  { 0.040399, 0.040399, 0.052345, }, // eye y radius
+  { 0.040399, 0.040399, 0.042417, }, // eye z radius
+  { 0,        0,       -33.60,    }, // eye rotation
+ // head
+  { 0.483731, 0.487201, 0.490235, }, // head side radius
+  { 0.446521, 0.481096, 0.491788, }, // head y radius
+  { 0.653479, 0.618904, 0.608212, }, // head y center of curvature
+  { 0.654011, 0.658529, 0.662691, }, // head bottom
+  { 0.634874, 0.639320, 0.643417, }, // head y center of motion
+}
+// Select index into the above array:
+// Argument: x - AndroidRobot version
+#declare Droid__fn_Index = function (x)
+{ select (x - 5, 0, select (x - 6, 1, 2))
+}
 
 #macro AndroidRobot__V3
 ( Use_merge, x_Head, x_Left_arm, x_Right_arm, x_Left_leg, x_Right_leg
 )
-  #if (AndroidRobot_Version < 5.0)
-   // Radii
-    #local DROID_RTORSO = 0.483731;
-    #local DROID_RBUTT = 0.116946;     // minor radius
-    #local DROID_RLIMB = 0.108441;
-   // Side positions
-    #local DROID_ZSHOULDER = 0.632571;
-    #local DROID_ZHIP = 0.180735;
-   // Vertical positions
-    #local DROID_Y2TORSO = 0.615738;   // top
-    #local DROID_Y1TORSO = -0.202352;  // bottom
-    #local DROID_YSHOULDER = 0.525902; // center of curvature
-    #local DROID_Y2LEG = 0.010277;     // top center of curvature
-   // Length
-    #local DROID_HLIMB = 0.451836;     // length excluding end radii
-  #else
-   // Radii
-    #local DROID_RTORSO = 0.485546;
-    #local DROID_RBUTT = 0.117385;     // minor radius
-    #local DROID_RLIMB = 0.108848;
-   // Side positions
-    #local DROID_ZSHOULDER = 0.634945;
-    #local DROID_ZHIP = 0.181413;
-   // Vertical positions
-    #local DROID_Y2TORSO = 0.620112;   // top
-    #local DROID_Y1TORSO = -0.201047;  // bottom
-    #local DROID_YSHOULDER = 0.529939; // center of curvature
-    #local DROID_Y2LEG = 0.012379;     // top center of curvature
-   // Length
-    #local DROID_HLIMB = 0.453532;     // length excluding end radii
-  #end
+  #local droid_Ix = Droid__fn_Index (AndroidRobot_Version);
+
+  #local DROID_RTORSO = droid__Dimensions [0][droid_Ix];
+  #local DROID_RBUTT = droid__Dimensions [1][droid_Ix];
+  #local DROID_RLIMB = droid__Dimensions [2][droid_Ix];
+  #local DROID_ZSHOULDER = droid__Dimensions [3][droid_Ix];
+  #local DROID_ZHIP = droid__Dimensions [4][droid_Ix];
+  #local DROID_Y2TORSO = droid__Dimensions [5][droid_Ix];
+  #local DROID_Y1TORSO = droid__Dimensions [6][droid_Ix];
+  #local DROID_YSHOULDER = droid__Dimensions [7][droid_Ix];
+  #local DROID_Y2LEG = droid__Dimensions [8][droid_Ix];
+  #local DROID_HLIMB = droid__Dimensions [9][droid_Ix];
 
   #local DROID_ZBUTT = DROID_RTORSO - DROID_RBUTT;  // center of curvature
   #local DROID_YBUTT = DROID_Y1TORSO + DROID_RBUTT; // center of curvature
@@ -304,36 +341,27 @@
 //--------------------------------------
 
 #macro AndroidRobot__Head_v3 (Use_merge)
-  #if (AndroidRobot_Version < 5.0)
-   // Angle
-    #local DROID_AANTENNA = 29;
-   // Radius
-    #local DROID_RANTENNA = 0.015416;
-   // Side position
-    #local DROID_ZANTENNA = 0.108972;  // top center of curvature
-   // Vertical positions
-    #local DROID_YORIGIN = 0.871424;   // needed for antenna rotation
-    #local DROID_Y2ANTENNA = 0.422600; // top center of curvature
-    #local DROID_Y1ANTENNA = 0.034552; // corrected (though inconsequential)
-  #else
-   // Angle
-    #local DROID_AANTENNA = 30;
-   // Radius
-    #local DROID_RANTENNA = 0.016810;
-   // Side position
-    #local DROID_ZANTENNA = 0.304231;  // top center of curvature
-   // Vertical position
-    // Origin is not needed because the 2019 SVG creates the antennae in place.
-    #local DROID_Y2ANTENNA = 1.188860; // top center of curvature
-   // Length
-    #local DROID_HANTENNA = 0.18;      // sufficient length
-  #end
+  #local droid_Ix = Droid__fn_Index (AndroidRobot_Version);
+  #local DROID_AANTENNA = droid__Dimensions [10][droid_Ix];
+  #local DROID_RANTENNA = droid__Dimensions [11][droid_Ix];
+  #local DROID_RYANTENNA = droid__Dimensions [12][droid_Ix];
+  #local DROID_ZANTENNA = droid__Dimensions [13][droid_Ix];
+  #local DROID_YORIGIN = droid__Dimensions [14][droid_Ix];
+  #local DROID_Y2ANTENNA = droid__Dimensions [15][droid_Ix];
+  #local DROID_Y1ANTENNA = droid__Dimensions [16][droid_Ix];
+  #local DROID_HANTENNA = droid__Dimensions [17][droid_Ix];
 
+  #local droid_v_Eye = AndroidRobot_Eye_Radii_v();
   #local Droid_EyeSocket = cylinder
-  { 0, x, AndroidRobot_Eye_radius()
+  { 0, x, 1
+    scale <1, droid_v_Eye.y, droid_v_Eye.z>
+    rotate droid_v_Eye * x
     translate AndroidRobot_Eye_v() * <0, 1, 1>
   }
 
+  // Different algorithms are needed here because the older SVG
+  // created a vertical antenna, then rotated it into place,
+  // whereas later SVGs created the antennae in situ.
   #local Droid_Antenna = #if (Use_merge) merge #else union #end
   { #if (AndroidRobot_Version < 5.0)
       cylinder { DROID_Y1ANTENNA * y, DROID_Y2ANTENNA * y, DROID_RANTENNA }
@@ -342,7 +370,7 @@
       rotate DROID_AANTENNA * x
       translate DROID_YORIGIN * y
     #else
-      sphere { 0, DROID_RANTENNA }
+      sphere { 0, 1 scale <DROID_RANTENNA, DROID_RYANTENNA, DROID_RANTENNA> }
       cylinder { 0, -DROID_HANTENNA * y, DROID_RANTENNA }
       rotate DROID_AANTENNA * x
       translate <0, DROID_Y2ANTENNA, DROID_ZANTENNA>
@@ -363,14 +391,13 @@
 //============================== PUBLIC MACROS =================================
 
 #macro AndroidRobot_Eye_v()
+  #local droid_Ix = Droid__fn_Index (AndroidRobot_Version);
   #local Droid_Test = AndroidRobot_Head (0)
   trace
   ( Droid_Test,
     ( AndroidRobot_Version < 3.0?
       <1, DROID__EYE_HEIGHT, 0.25>:
-      ( AndroidRobot_Version < 5.0?
-        <1, 0.871424, 0.223260>: <1, 0.837335, 0.223475>
-      )
+      <1, droid__Dimensions [18][droid_Ix], droid__Dimensions [19][droid_Ix]>
     ),
     -x
   )
@@ -378,10 +405,14 @@
 
 //--------------------------------------
 
-#macro AndroidRobot_Eye_radius()
+#macro AndroidRobot_Eye_Radii_v()
+  #local droid_Ix = Droid__fn_Index (AndroidRobot_Version);
   ( AndroidRobot_Version < 3.0?
-    0.05:
-    (AndroidRobot_Version < 5.0? 0.040399: 0.040440)
+    <0.05, 0.05, 0>:
+    < droid__Dimensions [22][droid_Ix], // rotation
+      droid__Dimensions [20][droid_Ix], // y radius
+      droid__Dimensions [21][droid_Ix]  // z radius
+    >
   )
 #end
 
@@ -394,17 +425,11 @@
       plane { y, 0.65 - Outset }
     }
   #else
-    #if (AndroidRobot_Version < 5.0)
-      #local DROID_RZHEAD = 0.483731;
-      #local DROID_RYHEAD = 0.446521;
-      #local DROID_YCHEAD = 0.653479;
-      #local DROID_Y1HEAD = 0.654011;
-    #else
-      #local DROID_RZHEAD = 0.487201;
-      #local DROID_RYHEAD = 0.481096;
-      #local DROID_YCHEAD = 0.618904;
-      #local DROID_Y1HEAD = 0.658529;
-    #end
+    #local droid_Ix = Droid__fn_Index (AndroidRobot_Version);
+    #local DROID_RZHEAD = droid__Dimensions [23][droid_Ix];
+    #local DROID_RYHEAD = droid__Dimensions [24][droid_Ix];
+    #local DROID_YCHEAD = droid__Dimensions [25][droid_Ix];
+    #local DROID_Y1HEAD = droid__Dimensions [26][droid_Ix];
     intersection
     { sphere
       { 0, 1
@@ -418,7 +443,7 @@
 
 //--------------------------------------
 
-#macro AndroidRobot_Make_head (Use_merge)
+#macro AndroidRobot_Make_Head (Use_merge)
   #if (AndroidRobot_Version < 3.0)
     AndroidRobot__Head_v2 (Use_merge)
   #else
@@ -431,7 +456,7 @@
 #macro AndroidRobot_Head_x (x_Head)
   #local droid_Neck =
   ( AndroidRobot_Version < 3.0?
-    0.625: (AndroidRobot_Version < 5.0? 0.634874: 0.639320)
+    0.625: droid__Dimensions [27] [Droid__fn_Index (AndroidRobot_Version)]
   );
   transform
   { translate -droid_Neck * y // Move center of neck to origin
@@ -466,7 +491,7 @@
 
 //--------------------------------------
 
-#macro AndroidRobot_Set_color (Version)
+#macro AndroidRobot_Set_Color (Version)
   #declare DROID_C_RAWCOLOR = rgb
   ( Version < 4?
     <164, 198, 57>:   // #A4C639
@@ -477,20 +502,56 @@
   ) / 255;
   #if (version < 3.7)
     #declare DROID_C_COLOR = rgb
-    < Droid__fn_sRGB (DROID_C_RAWCOLOR.red),
-      Droid__fn_sRGB (DROID_C_RAWCOLOR.green),
-      Droid__fn_sRGB (DROID_C_RAWCOLOR.blue)
+    < pow (DROID_C_RAWCOLOR.red, 2.2 / AndroidRobot_Gamma),
+      pow (DROID_C_RAWCOLOR.green, 2.2 / AndroidRobot_Gamma),
+      pow (DROID_C_RAWCOLOR.blue, 2.2 / AndroidRobot_Gamma)
     >;
   #else
     #declare DROID_C_COLOR = srgbft DROID_C_RAWCOLOR;
   #end
+  #declare ANDROIDROBOT_C_RAWCOLOUR = DROID_C_RAWCOLOR;
   #declare ANDROIDROBOT_C_RAWCOLOR = DROID_C_RAWCOLOR;
+  #declare DROID_C_RAWCOLOUR = DROID_C_RAWCOLOR;
   #declare ANDROIDROBOT_C_COLOR = DROID_C_COLOR;
+  #declare ANDROIDROBOT_C_COLOR = DROID_C_COLOR;
+  #declare DROID_C_COLOUR = DROID_C_COLOR;
 #end
 
-AndroidRobot_Set_color (AndroidRobot_Version) // Initialize.
+AndroidRobot_Set_Color (AndroidRobot_Version) // Initialize.
 
-//--------------------- GRANDFATHER ------------------------
+//---------------------- GRANDFATHERED -------------------------
+
+#macro AndroidRobot_Eye_radius()
+  #local droid_Ix = Droid__fn_Index (AndroidRobot_Version);
+  ( AndroidRobot_Version < 3.0?
+    0.05:
+    sqrt (droid__Dimensions [20][droid_Ix] * droid__Dimensions [21][droid_Ix])
+  )
+#end
+
+//================================= SYNONYMS ===================================
+
+#declare DROID_HEIGHT = ANDROIDROBOT_HEIGHT;
+#declare DROID_V_BASE = ANDROIDROBOT_V_BASE;
+#macro Droid (Use_merge) AndroidRobot (Use_merge) #end
+#macro Droid_Eye_v() AndroidRobot_Eye_v() #end
+#macro Droid_Eye_Radii_v() AndroidRobot_Eye_Radii_v() #end
+#macro Droid_Eye_radius() AndroidRobot_Eye_radius() #end
+#macro Droid_Head (Outset) AndroidRobot_Head (Outset) #end
+#macro Droid_Head_x (x_Head) AndroidRobot_Head_x (x_Head) #end
+#macro Droid_Make_Head (Use_merge) AndroidRobot_Make_Head (Use_merge) #end
+#macro Droid_Make_head (Use_merge) AndroidRobot_Make_Head (Use_merge) #end
+#macro Droid_Posed
+( Use_merge, x_Head, x_Left_arm, x_Right_arm, x_Left_leg, x_Right_leg
+)
+  AndroidRobot_Posed
+  ( Use_merge, x_Head, x_Left_arm, x_Right_arm, x_Left_leg, x_Right_leg
+  )
+#end
+#macro Droid_Set_Color (Version) AndroidRobot_Set_Color (Version) #end
+#macro Droid_Set_color (Version) AndroidRobot_Set_Color (Version) #end
+#macro Droid_Set_Colour (Version) AndroidRobot_Set_Color (Version) #end
+#macro Droid_Set_colour (Version) AndroidRobot_Set_Color (Version) #end
 
 #macro AndroidRobot_posed
 ( Use_merge, x_Head, x_Left_arm, x_Right_arm, x_Left_leg, x_Right_leg
@@ -499,25 +560,11 @@ AndroidRobot_Set_color (AndroidRobot_Version) // Initialize.
   ( Use_merge, x_Head, x_Left_arm, x_Right_arm, x_Left_leg, x_Right_leg
   )
 #end
+#macro AndroidRobot_Make_head (Use_merge) AndroidRobot_Make_Head (Use_merge) #end
+#macro AndroidRobot_Set_color (Version) AndroidRobot_Set_Color (Version) #end
+#macro AndroidRobot_Set_Colour (Version) AndroidRobot_Set_Color (Version) #end
+#macro AndroidRobot_Set_colour (Version) AndroidRobot_Set_Color (Version) #end
 
-//=============================  SHORT PREFIXES ================================
-
-#declare DROID_HEIGHT = ANDROIDROBOT_HEIGHT;
-#declare DROID_V_BASE = ANDROIDROBOT_V_BASE;
-#macro Droid_Eye_v() AndroidRobot_Eye_v() #end
-#macro Droid_Eye_radius() AndroidRobot_Eye_radius() #end
-#macro Droid_Head (Outset) AndroidRobot_Head (Outset) #end
-#macro Droid_Head_x (x_Head) AndroidRobot_Head_x (x_Head) #end
-#macro Droid_Make_head (Use_merge) AndroidRobot_Make_head (Use_merge) #end
-#macro Droid_Posed
-( Use_merge, x_Head, x_Left_arm, x_Right_arm, x_Left_leg, x_Right_leg
-)
-  AndroidRobot_Posed
-  ( Use_merge, x_Head, x_Left_arm, x_Right_arm, x_Left_leg, x_Right_leg
-  )
-#end
-#macro Droid (Use_merge) AndroidRobot (Use_merge) #end
-#macro Droid_Set_color (Version) AndroidRobot_Set_color (Version) #end
 
 //==============================================================================
 

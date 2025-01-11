@@ -1,4 +1,4 @@
-/* androidrobot_head.pov version 5.0A
+/* androidrobot_head.pov version 6.0-beta.1
  * Persistence of Vision Raytracer scene description file
  * POV-Ray Object Collection demo
  *
@@ -10,25 +10,28 @@
  * See https://developer.android.com/distribute/marketing-tools/ and
  * https://creativecommons.org/licenses/by/3.0/ for more information.
  *
- * Copyright (C) 2020, 2021 Richard Callwood III.  Some rights reserved.
- * This file is licensed under the terms of the CC-LGPL
- * a.k.a. the GNU Lesser General Public License version 2.1.
+ * Copyright (C) 2020, 2025 Richard Callwood III.  Some rights reserved.
+ * This file is licensed under the terms of the GNU-LGPL.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License version 2.1 as published by the Free Software Foundation.
+ * This library is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Please
- * visit https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html for
- * the text of the GNU Lesser General Public License version 2.1.
+ * visit https://www.gnu.org/licenses/lgpl-3.0.html for the text
+ * of the GNU Lesser General Public License version 3.
  *
  * Vers.  Date         Comments                                           Author
  * -----  ----         --------                                           ------
  * 5.0    2020-Sep-19  Created                                             R.C.
- * 5.0A   2021-Aug-14  The license text is updated.                        R.C.
+ * 6.0    2021-Jan-11  The eyes are remodeled for the eccentricity of the  R.C.
+ *                     2023 model's orbits.
+ *                     The license is upgraded to LGPL 3.
  */
+// +W280 +H210 +A +AM2 +R4
 #version max (3.5, min (3.8, version));
 
 #ifndef (Rad) #declare Rad = yes; #end // Use radiosity?
@@ -85,9 +88,11 @@ plane
 
 //============================== THE ROBOT HEAD ================================
 
+#declare v_Eye = AndroidRobot_Eye_Radii_v();
 #declare UserDefinedEye = sphere
-{ 0, AndroidRobot_Eye_radius()
-  scale <0.5, 1, 1>
+{ 0, 1
+  scale <0.5 * v_Eye.z, v_Eye.y, v_Eye.z>
+  rotate v_Eye * x
   pigment { rgbf 1 }
   finish
   { reflection { 0 1 fresnel } conserve_energy
@@ -95,7 +100,7 @@ plane
   }
   interior { ior Crown_Glass_Ior }
   photons { target collect off reflection on refraction on }
-  translate AndroidRobot_Eye_v() - <0.05, 0, 0>
+  translate AndroidRobot_Eye_v() - <0.75 * v_Eye.z, 0, 0>
 }
 
 union

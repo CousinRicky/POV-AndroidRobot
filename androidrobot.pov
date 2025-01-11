@@ -1,4 +1,4 @@
-/* androidrobot.pov version 5.0A
+/* androidrobot.pov version 6.0-beta.1
  * Persistence of Vision Raytracer scene description file
  * POV-Ray Object Collection demo
  *
@@ -14,32 +14,34 @@
  *
  * Portions of the SDL source code are copyright (C) 2009 Karl Ostmo.  Some
  * rights reserved.  Portions of the SDL source code are copyright (C) 2011 -
- * 2021 Richard Callwood III.  Some rights reserved.
- * This file is licensed under the terms of the CC-LGPL
- * a.k.a. the GNU Lesser General Public License version 2.1.
+ * 20?? Richard Callwood III.  Some rights reserved.
+ * This file is licensed under the terms of the GNU-LGPL.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License version 2.1 as published by the Free Software Foundation.
+ * This library is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Please
- * visit https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html for
- * the text of the GNU Lesser General Public License version 2.1.
+ * visit https://www.gnu.org/licenses/lgpl-3.0.html for the text
+ * of the GNU Lesser General Public License version 3.
  *
  * Vers.  Date         Comments                                           Author
  * -----  ----         --------                                           ------
  * 1.0    2009-Oct-30  The original code is written as droid.pov.          K.O.
  * 2.0    2011-Jul-23  The demo environment is moved to this separate      R.C.
  *                     scene file.  A new ground plane is added, along
- *                     with a background and some global settings.
- * 2.1    2012-Jun-26  The #version is changed to 3.5.                     R.C.
+ *                     with a background and some global settings, and a
+ *                     #version is set, to 3.7.
+ * 2.1    2012-Jun-26  The #version is changed from 3.7 to to 3.5.         R.C.
  * 2.2    2014-Oct-05  The Google license statement is copied from the     R.C.
  *                     include file.
- * 5.0    2020-Sep-19  The #version is auto-detected within a range.       R.C.
- * 5.0A   2021-Aug-14  The license text is updated.                        R.C.
+ * 5.0    2020-Sep-19  The #version is preserved between 3.5 and 3.8.      R.C.
+ * 6.0    20??-???-??  The license is upgraded to LGPL 3.                  R.C.
  */
+// +W800 +H600 +A +AM2 +R4
 #version max (3.5, min (3.8, version));
 
 global_settings

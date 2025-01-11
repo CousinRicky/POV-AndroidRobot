@@ -1,4 +1,4 @@
-/* androidrobot_posed.pov version 5.0A
+/* androidrobot_posed.pov version 6.0-beta.1
  * Persistence of Vision Raytracer scene description file
  * POV-Ray Object Collection demo
  *
@@ -10,24 +10,24 @@
  * See https://developer.android.com/distribute/marketing-tools/ and
  * https://creativecommons.org/licenses/by/3.0/ for more information.
  *
- * Copyright (C) 2011 - 2021 Richard Callwood III.  Some rights reserved.
- * This file is licensed under the terms of the CC-LGPL
- * a.k.a. the GNU Lesser General Public License version 2.1.
+ * Copyright (C) 2011 - 2025 Richard Callwood III.  Some rights reserved.
+ * This file is licensed under the terms of the GNU-LGPL.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License version 2.1 as published by the Free Software Foundation.
+ * This library is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Please
- * visit https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html for
- * the text of the GNU Lesser General Public License version 2.1.
+ * visit https://www.gnu.org/licenses/lgpl-3.0.html for the text
+ * of the GNU Lesser General Public License version 3.
  *
  * Vers.  Date         Comments                                           Author
  * -----  ----         --------                                           ------
  * 2.0    2011-Jul-23  Created.                                            R.C.
- * 2.1    2012-Jun-26  The #version is changed to 3.5.                     R.C.
+ * 2.1    2012-Jun-26  The #version is changed from 3.7 to 3.5.            R.C.
  * 2.2    2014-Oct-05  The robot is more charismatic.                      R.C.
  *                     Radiosity is added.
  *                     The metallic finish is tweaked.
@@ -39,9 +39,12 @@
  *                     The metal finish is tweaked.
  *                     The code is reorganized.
  * 5.0    2020-Sep-19  The shadows are sharpened a bit.                    R.C.
- *                     The #version is auto-detected within a range, and   R.C.
+ *                     The #version is preserved between 3.5 and 3.8, and
  *                     blur samples is defaulted accordingly
- * 5.0A   2021-Aug-14  The license text is updated.                        R.C.
+ * 6.0    2025-Jan-11  The metallicity of the robot's finish is lowered.   R.C.
+ *                     The eyes are remodeled for the eccentricity of the
+ *                     2023 model's orbits.
+ *                     The license is upgraded to LGPL 3.
  */
 /* 3.5, 3.6 // +W280 +H280
  * 3.7, 3.8 // +W280 +H280 +A
@@ -139,9 +142,11 @@ plane
 
 //================================ THE ROBOT ===================================
 
+#declare v_Eye = AndroidRobot_Eye_Radii_v();
 #declare UserDefinedEye = sphere
-{ 0, AndroidRobot_Eye_radius()
-  scale <0.5, 1, 1>
+{ 0, 1
+  scale <0.5 * v_Eye.z, v_Eye.y, v_Eye.z>
+  rotate v_Eye * x
   pigment { rgbf 1 }
   finish
   { reflection { 0 1 fresnel } conserve_energy
@@ -151,10 +156,10 @@ plane
  // While the stored photons aren't visible in this scene,
  // enabling photons adds to the contrast in the eyes.
   photons { target collect off reflection on refraction on }
-  translate AndroidRobot_Eye_v() - <0.05, 0, 0>
+  translate AndroidRobot_Eye_v() - <0.75 * v_Eye.z, 0, 0>
 }
 
-#declare MyHeadRotation = transform { rotate <0, -25, 0> }
+#declare MyHeadRotation = transform { rotate <0, -32, 0> }
 
 union
 { object
@@ -168,11 +173,11 @@ union
     )
     pigment { ANDROIDROBOT_C_COLOR }
     finish
-    { reflection { 0.9 metallic }
-      diffuse DIFFUSE * 0.05
-      ambient C_AMBIENCE * 0.05
-      specular 1125 metallic
-      roughness 0.0001
+    { reflection { 0.5 metallic }
+      diffuse 0.25
+      ambient 0.25 * C_AMBIENCE / DIFFUSE
+      specular 15.43 metallic
+      roughness 0.004082
     }
   }
   union // facial features
