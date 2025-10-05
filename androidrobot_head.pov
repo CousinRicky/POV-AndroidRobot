@@ -1,4 +1,4 @@
-/* androidrobot_head.pov version 6.0-beta.1
+/* androidrobot_head.pov version 6.0-rc.1
  * Persistence of Vision Raytracer scene description file
  * POV-Ray Object Collection demo
  *
@@ -10,7 +10,7 @@
  * See https://developer.android.com/distribute/marketing-tools/ and
  * https://creativecommons.org/licenses/by/3.0/ for more information.
  *
- * Copyright (C) 2020, 2025 Richard Callwood III.  Some rights reserved.
+ * Copyright (C) 2020 - 2025 Richard Callwood III.  Some rights reserved.
  * This file is licensed under the terms of the GNU-LGPL.
  *
  * This library is free software: you can redistribute it and/or modify it
@@ -27,7 +27,7 @@
  * Vers.  Date         Comments                                           Author
  * -----  ----         --------                                           ------
  * 5.0    2020-Sep-19  Created                                             R.C.
- * 6.0    2021-Jan-11  The eyes are remodeled for the eccentricity of the  R.C.
+ * 6.0    2025-Jan-11  The eyes are remodeled for the eccentricity of the  R.C.
  *                     2023 model's orbits.
  *                     The license is upgraded to LGPL 3.
  */

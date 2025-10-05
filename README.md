@@ -4,7 +4,7 @@
 
 A 3-D model of Google’s Android™ robot, with posable head and limbs.
 
-Note: This is a **beta version** of AndroidRobot 6.0.
+Note: This is a **release candidate version** of AndroidRobot 6.0.
 
 This project is a module from the Persistence of Vision Raytracer (POV-Ray) Object Collection.
 

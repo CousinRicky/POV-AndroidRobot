@@ -1,4 +1,4 @@
-/* androidrobot_posed.pov version 6.0-beta.1
+/* androidrobot_posed.pov version 6.0-rc.1
  * Persistence of Vision Raytracer scene description file
  * POV-Ray Object Collection demo
  *

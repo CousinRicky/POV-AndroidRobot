@@ -1,4 +1,4 @@
-/* androidrobot.inc version 6.0-beta.1
+/* androidrobot.inc version 6.0-rc.1
  * Persistence of Vision Raytracer include file
  * POV-Ray Object Collection
  *
@@ -71,7 +71,7 @@
  *                     selectable.
  *                     The head is available standalone.
  *
- * 6.0    20??-???-??  "Magic numbers" are centralized in an array.
+ * 6.0    2025-Jan-11  "Magic numbers" are centralized in an array.
  *                     New body proportions are added, extrapolated from the
  *                     2023 head logo.  Proportions of previous versions remain
  *                     selectable.
@@ -82,7 +82,9 @@
  *                     A gamma can be set for #version < 3.7.
  *                     Additional identifier synonyms are added, including
  *                     international spellings.
- *                     The license is upgraded to LGPL 3.
+ *                     The license is upgraded to LGPL 3, as permitted by the
+ *                     LGPL when the original work (droid.pov by K.O.) does not
+ *                     specify a license version.
  *
  * Implementation note: due to POV-Ray namespace scope leakage, local variables
  * and function parameters (other than x, y, and z) *must* be prefixed.
@@ -94,7 +96,7 @@
 
 #ifdef (View_POV_Include_Stack)
   #debug concat
-  ( "#include \"androidrobot.inc\" //version 6.0-beta.1\n  #version ",
+  ( "#include \"androidrobot.inc\" //version 6.0-rc.1\n  #version ",
     str(version,0,1), ";\n"
   )
 #end
