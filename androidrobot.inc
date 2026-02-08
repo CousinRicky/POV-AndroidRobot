@@ -1,4 +1,4 @@
-/* androidrobot.inc version 6.0-rc.1
+/* androidrobot.inc version 6.0-rc.2 2026-Feb-07
  * Persistence of Vision Raytracer include file
  * POV-Ray Object Collection
  *
@@ -14,7 +14,7 @@
  *
  * Portions of the SDL source code are copyright (C) 2009 Karl Ostmo.  Some
  * rights reserved.  Portions of the SDL source code are copyright (C) 2011 -
- * 2025 Richard Callwood III.  Some rights reserved.
+ * 2026 Richard Callwood III.  Some rights reserved.
  * This file is licensed under the terms of the GNU-LGPL.
  *
  * This library is free software: you can redistribute it and/or modify it
@@ -96,7 +96,7 @@
 
 #ifdef (View_POV_Include_Stack)
   #debug concat
-  ( "#include \"androidrobot.inc\" //version 6.0-rc.1\n  #version ",
+  ( "#include \"androidrobot.inc\" //version 6.0-rc.2\n  #version ",
     str(version,0,1), ";\n"
   )
 #end
@@ -420,6 +420,8 @@
 
 //--------------------------------------
 
+// Implementation note: although an intersecting cylinder would make a tighter
+// bounding box, in practice it's not much better than the plane used here.
 #macro AndroidRobot_Head (Outset)
   #if (AndroidRobot_Version < 3.0)
     difference
@@ -494,6 +496,7 @@
 //--------------------------------------
 
 #macro AndroidRobot_Set_Color (Version)
+  // gamma encoded:
   #declare DROID_C_RAWCOLOR = rgb
   ( Version < 4?
     <164, 198, 57>:   // #A4C639
@@ -502,6 +505,7 @@
       <61, 220, 132>  // #3DDC84
     )
   ) / 255;
+  // gamma decoded:
   #if (version < 3.7)
     #declare DROID_C_COLOR = rgb
     < pow (DROID_C_RAWCOLOR.red, 2.2 / AndroidRobot_Gamma),
@@ -511,6 +515,7 @@
   #else
     #declare DROID_C_COLOR = srgbft DROID_C_RAWCOLOR;
   #end
+  // synonyms:
   #declare ANDROIDROBOT_C_RAWCOLOUR = DROID_C_RAWCOLOR;
   #declare ANDROIDROBOT_C_RAWCOLOR = DROID_C_RAWCOLOR;
   #declare DROID_C_RAWCOLOUR = DROID_C_RAWCOLOR;
