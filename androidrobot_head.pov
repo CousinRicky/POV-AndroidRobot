@@ -1,4 +1,4 @@
-/* androidrobot_head.pov version 6.0-rc.2 2026-Feb-07
+/* androidrobot_head.pov version 6.0-rc.3  2026-Oct-10
  * Persistence of Vision Raytracer scene description file
  * POV-Ray Object Collection demo
  *

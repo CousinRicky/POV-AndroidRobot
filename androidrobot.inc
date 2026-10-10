@@ -1,4 +1,4 @@
-/* androidrobot.inc version 6.0-rc.2 2026-Feb-07
+/* androidrobot.inc version 6.0-rc.3  2026-Oct-10
  * Persistence of Vision Raytracer include file
  * POV-Ray Object Collection
  *
@@ -85,6 +85,7 @@
  *                     The license is upgraded to LGPL 3, as permitted by the
  *                     LGPL when the original work (droid.pov by K.O.) does not
  *                     specify a license version.
+ *        2026-Oct-10  Bug fix: ANDROIDROBOT_C_COLOUR is assigned.
  *
  * Implementation note: due to POV-Ray namespace scope leakage, local variables
  * and function parameters (other than x, y, and z) *must* be prefixed.
@@ -96,7 +97,7 @@
 
 #ifdef (View_POV_Include_Stack)
   #debug concat
-  ( "#include \"androidrobot.inc\" //version 6.0-rc.2\n  #version ",
+  ( "#include \"androidrobot.inc\" //version 6.0-rc.3\n  #version ",
     str(version,0,1), ";\n"
   )
 #end
@@ -516,11 +517,11 @@
     #declare DROID_C_COLOR = srgbft DROID_C_RAWCOLOR;
   #end
   // synonyms:
-  #declare ANDROIDROBOT_C_RAWCOLOUR = DROID_C_RAWCOLOR;
   #declare ANDROIDROBOT_C_RAWCOLOR = DROID_C_RAWCOLOR;
+  #declare ANDROIDROBOT_C_RAWCOLOUR = DROID_C_RAWCOLOR;
   #declare DROID_C_RAWCOLOUR = DROID_C_RAWCOLOR;
   #declare ANDROIDROBOT_C_COLOR = DROID_C_COLOR;
-  #declare ANDROIDROBOT_C_COLOR = DROID_C_COLOR;
+  #declare ANDROIDROBOT_C_COLOUR = DROID_C_COLOR;
   #declare DROID_C_COLOUR = DROID_C_COLOR;
 #end
 
